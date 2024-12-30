@@ -12,17 +12,18 @@
             </div>
             {% empty %}
         {% endfor %}
+        <div class="box" style="display: inline-block">
+            <h1 class="title">TrafficLawResearcher</h1>
+            <a href="{% url 'logout-action' %}" class="is-pulled-left">Logout</a> 
+        </div>
+        <h1 class="title">Hello {{ name }}!</h1>
         <form method="post" class="box">
             {% csrf_token %}
             <h1 class="title">Create Chatbot</h1>
             {{ form.as_p }}
             <input type="submit" class="button is-primary" value="Create">
         </form>
-        <div class="box" style="display: inline-block">
-            <h1 class="title">TrafficLawResearcher</h1>
-            <a href="{% url 'logout-action' %}" class="is-pulled-left">Logout</a> 
-        </div>
-        <h1 class="title">Hello {{ name }}! Your chatbots: </h1>
+        <h1 class="title">Your chatbots:</h1>
         <ul>
             {% for chatbot in chatbots %}
                 <li class="box">
