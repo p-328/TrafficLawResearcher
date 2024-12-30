@@ -1,0 +1,37 @@
+{% load replace %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TrafficLawResearcher - {{ chatbot.name }}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    </head>
+    <body>
+        <script src="{% static "dyn_change.js" %}"></script>
+        {% for message in messages %}
+            <div class="notification is-danger">
+                <p>{{ message }}</p>
+            </div>
+            {% empty %}
+        {% endfor %}
+        <h1 class="title box">{{ chatbot.name }}</h1>
+        {% for query, response in queries_and_responses %}
+            {% if response|type_filter == "GeneralResponse" %}
+                <p>{{ user }}: {{ query.text }}</p>
+                <p>{{ chatbot.name }}: {{ response.text }}</p>
+            {% else %}
+                <p>{{ user }}: Criteria - {{ query.criteria }}</p>
+                <p>Chatbot: {{ query.text }}</p>
+                <a href={{ response.file_link }}>Report</a>
+            {% endif %}
+            {% empty %}
+                <p>Debug empty message</p>
+        {% endfor %}
+        
+        <form method="post" class="box" id="q_form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="button is-primary" value="Ask">
+        </form>
+    </body>
+</html>

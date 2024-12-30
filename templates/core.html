@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TrafficLawResearcher</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    </head>
+    <body>
+        {% for message in messages %}
+            <div class="notification is-danger">
+                <p>{{ message }}</p>
+            </div>
+            {% empty %}
+        {% endfor %}
+        <form method="post" class="box">
+            {% csrf_token %}
+            <h1 class="title">Create Chatbot</h1>
+            {{ form.as_p }}
+            <input type="submit" class="button is-primary" value="Create">
+        </form>
+        <div class="box" style="display: inline-block">
+            <h1 class="title">TrafficLawResearcher</h1>
+            <a href="{% url 'logout-action' %}" class="is-pulled-left">Logout</a> 
+        </div>
+        <h1 class="title">Hello {{ name }}! Your chatbots: </h1>
+        <ul>
+            {% for chatbot in chatbots %}
+                <li class="box">
+                    <a href="{% url 'cbot' id=chatbot.id.hex %}">
+                        {{ chatbot.name }}
+                    </a>
+                </li>
+                {% empty %}
+                <p>It seems you have no chatbots, try creating one!</p>
+            {% endfor %}
+        </ul>
+        
+    </body>
+</html>
