@@ -1,4 +1,4 @@
-GROQ_KEY = "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"
+import os
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
@@ -10,6 +10,9 @@ import pdfplumber
 from langchain_core.documents import Document
 from .legal_embeddings import LegalEmbeddings
 from django.contrib.staticfiles import finders
+import dotenv
+dotenv.load_dotenv(finders.find(".env"))
+GROQ_KEY = os.getenv('GROQ_API_KEY')
 
 def _read_file(fp):
         docs = []
@@ -20,12 +23,6 @@ def _read_file(fp):
                 document = Document(docstr, metadata={'source': fp, 'page': page_number-1})
                 docs.append(document)
         return docs
-
-def _format_docs(docs):
-    s = ""
-    for doc in docs:
-        s += doc.page_content + "\n\n"
-    return s
 
 class Chatbot:
     def __init__(self):

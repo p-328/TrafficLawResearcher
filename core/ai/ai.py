@@ -4,11 +4,15 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 import uuid
+import dotenv
+import os
+from django.contrib.staticfiles import finders
+dotenv.load_dotenv(finders.find('.env'))
 
 cloudinary.config( 
-    cloud_name = "dkyawvev9", 
-    api_key = "995557162195594", 
-    api_secret = "OtUsLowvSH6eta5M_Q8fo2F9tVs", 
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
+    api_key = os.getenv('CLOUDINARY_API_KEY'), 
+    api_secret = os.getenv('CLOUDINARY_API_SECRET'), 
     secure=True
 )
 
