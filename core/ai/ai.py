@@ -78,7 +78,7 @@ def resp(query: str, type: str, data_format: str | None):
             responses.append(response)
         df = DataFrame({"State": li, f"Criteria: {query}": responses})
         uuid_unique = uuid.uuid4()
-        df.to_csv(path_or_buf=f"{query.replace(" ", "")}.csv", encoding="utf-8", index=False)
+        df.to_csv(path_or_buf=f"{query.replace(" ", "")}{uuid_unique.hex}.csv", encoding="utf-8", index=False)
         upload_res = cloudinary.uploader.upload(f"./{query.replace(" ", "")}{uuid_unique.hex}.csv", public_id=f"{query.replace(" ", "")}{uuid_unique.hex}")
         conclusion_response = _cbot.respond(f"Overall, give a general conclusion on state move over laws based on this criteria. Criteria: {query}. Don't mention specific states.")
         return (conclusion_response, upload_res["secure_url"])
