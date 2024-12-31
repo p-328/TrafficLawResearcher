@@ -16,7 +16,7 @@ _cbot = Chatbot()
 
 def resp(query: str, type: str, data_format: str | None):
     if type == "general":
-        return _cbot.respond(query)
+        return _cbot.respond(query)['answer']
     else:
         list_of_states = """
             Alabama
@@ -74,12 +74,12 @@ def resp(query: str, type: str, data_format: str | None):
         responses = []
         for state in li:
             built_query = f"Does {state}'s move over law satisfy this criteria? The criteria is {query}. Please answer in this format of data: {data_format}"
-            response = _cbot.respond(built_query)
+            response = _cbot.respond(built_query)['answer']
             responses.append(response)
         df = DataFrame({"State": li, f"Criteria: {query}": responses})
         uuid_unique = uuid.uuid4()
         df.to_csv(path_or_buf=f"{query.replace(" ", "")}{uuid_unique.hex}.csv", encoding="utf-8", index=False)
         upload_res = cloudinary.uploader.upload(f"./{query.replace(" ", "")}{uuid_unique.hex}.csv", public_id=f"{query.replace(" ", "")}{uuid_unique.hex}")
-        conclusion_response = _cbot.respond(f"Overall, give a general conclusion on state move over laws based on this criteria. Criteria: {query}. Don't mention specific states.")
+        conclusion_response = _cbot.respond(f"Overall, give a general conclusion on state move over laws based on this criteria. Criteria: {query}. Don't mention specific states.")['answer']
         return (conclusion_response, upload_res["secure_url"])
 
