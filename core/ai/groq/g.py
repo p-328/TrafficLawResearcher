@@ -5,7 +5,6 @@ from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnablePassthrough
 from langchain.chains.retrieval import create_retrieval_chain
 import pdfplumber
 from langchain_core.documents import Document
